@@ -10,14 +10,16 @@ require_relative 'lib/player'
 #------------------------------------------------
 
 #Initialisation du joueur
-puts "Quel est ton prénom ?"
-print "> "
-first_name = gets.chomp
-my_game = Game.new(first_name)
+def ask_player_name
+	puts "Quel est ton prénom ?"
+	print "> "
+	first_name = gets.chomp
+end
 
 #Initialisation du jeu
-my_game.initialize
+my_game = Game.new(ask_player_name)
 
+#Bataille royale
 while my_game.is_still_ongoing? 
 	my_game.show_players
 	my_game.menu
@@ -25,4 +27,5 @@ while my_game.is_still_ongoing?
 	my_game.enemies_attack
 end
 
-my_game.end
+#Fin du jeu
+my_game.end_of_game
