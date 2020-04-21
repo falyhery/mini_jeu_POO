@@ -73,6 +73,3 @@ class HumanPlayer < Player
 	end
 
 end
-
-#player1 = HumanPlayer.new("Josiane")
-#player2 = HumanPlayer.new("José")
