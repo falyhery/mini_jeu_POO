@@ -2,12 +2,12 @@ class Game
 	attr_accessor :human_player, :enemies
 
 	def initialize(first_name)
-		@enemies = [player1, player2, player3, player4]
-		@human_player = first_name
-		player1 = Player.new("Josiane")
-		player2 = Player.new("José")
-		player3 = Player.new("Jocelyne")
-		player4 = Player.new("Jonathan")
+		@enemies = [@player1, @player2, @player3, @player4]
+		@human_player = HumanPlayer.new(first_name)
+		@player1 = Player.new("Josiane")
+		@player2 = Player.new("José")
+		@player3 = Player.new("Jocelyne")
+		@player4 = Player.new("Jonathan")
 	end
 
 	def kill_player(player)
@@ -15,7 +15,7 @@ class Game
 	end
 
 	def is_still_ongoing? 
-		if @human_player.life_points > 0 && @enemies.any? = true 
+		if @human_player.life_points > 0 && @enemies.any? == true 
 			return true
 		else
 			return false 
@@ -24,7 +24,7 @@ class Game
 
 	def show_players
 		puts "Voici l'état de ton joueur: "
-			human_player.show_state
+			@human_player.show_state
 		puts "Le nombre de joueurs bots restants est de #{@enemies.size}"
 	end
 
@@ -46,17 +46,35 @@ class Game
 
 	def menu_choice(player_choice)
 		if player_choice == "a"	#cherche une meilleure arme
-		human_player.search_weapon 
+		@human_player.search_weapon 
 		elsif player_choice == "s" #cherche à se soigner
 		human_player.search_health_pack 
-		elsif player_choice == "0" #lance une attaque sur le robot Josiane
+		elsif player_choice == "0" #lance une attaque contre le robot Josiane
 		human_player.attacks(player1)
 		player1.show_state
-		elsif player_choice == "1" #lance une attaque sur le robot José
+			if player1.life_points <= 0
+			player1.kill_player
+			end
+		elsif player_choice == "1" #lance une attaque contre le robot José
 		human_player.attacks(player2)
 		player2.show_state
+			if player2.life_points <= 0
+				player2.kill_player
+			end
+		elsif player_choice == "2" #lance une attaque contre le robot Jocelyne
+		human_player.attacks(player3)
+		player3.show_state
+			if player3.life_points <= 0
+				player3.kill_player
+			end
+		elsif player_choice == "3" #lance une attaque contre le robot Jonathan
+		human_player.attacks(player4)
+		player4.show_state
+			if player4.life_points <= 0
+				player4.kill_player
+			end	
 		else 
-		puts "Choisis parmi les options proposées"
+			puts "Choisis parmi les options proposées"
 		end
 	end
 
@@ -72,13 +90,14 @@ class Game
 	end
 
 #Fin du jeu 
-	def end
+	def end_of_game
 		puts "\n"
 		puts "La partie est finie"
 		if human_player.life_points > 0 
 			puts "BRAVO ! TU ES LE DERNIER DEBOUT !"
-		else puts "C'est trop la lose. Mais tu peux toujours recommencer..."
+		else 
+			puts "C'est trop la lose. Mais tu peux toujours recommencer..."
 		end
 	end
-
+	
 end
